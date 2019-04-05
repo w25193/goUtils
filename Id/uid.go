@@ -50,7 +50,7 @@ var once sync.Once
 // NewId Func: Generate Given id
 func NewId(workerid int64) (result int64) {
 	once.Do(func() {
-		worker, _ = NewIdWorker(10)
+		worker, _ = NewIdWorker(workerid)
 	})
 
 	//产生新ID
