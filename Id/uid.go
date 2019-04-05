@@ -40,6 +40,24 @@ type IdWorker struct {
 	lock          *sync.Mutex
 }
 
+// 定义一个包级别的private实例变量
+var worker *IdWorker
+
+// 同步Once,保证每次调用时，只有第一次生效
+var once sync.Once
+
+//singleton
+// NewId Func: Generate Given id
+func NewId(workerid int64) (result int64) {
+	once.Do(func() {
+		worker, _ = NewIdWorker(10)
+	})
+
+	//产生新ID
+	ResId, _ := worker.NextId()
+	return ResId
+}
+
 // NewIdWorker Func: Generate NewIdWorker with Given workerid
 func NewIdWorker(workerid int64) (iw *IdWorker, err error) {
 	iw = new(IdWorker)
